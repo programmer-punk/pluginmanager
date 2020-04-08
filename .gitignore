@@ -7,3 +7,8 @@ notes.md
 *.zip
 *.zip.asc
 release/
+ui_*.py
+staging*.py
+.ipynb_checkpoints
+*.ipynb
+plugins.xml*

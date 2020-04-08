@@ -6,7 +6,7 @@ QGIST PLUGIN MANAGER
 QGIS Plugin for Managing QGIS Plugins
 https://github.com/qgist/pluginmanager
 
-    qgist/pluginmanager/error.py: workbench exception types
+    qgist/pluginmanager/backends/conda/__init__.py: Conda backend
 
     Copyright (C) 2017-2020 QGIST project <info@qgist.org>
 
@@ -25,29 +25,15 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# EXCEPTIONS
+# META
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistRepoError(Exception):
-    pass
+__longname__ = 'conda plugins'
+__description__ = 'Backend for managing plugins installed as conda packages'
 
-class QgistInstallFailed(Exception):
-    pass
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# IMPORT (Internal)
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistNotADirectoryError(NotADirectoryError):
-    pass
-
-class QgistNotAPluginDirectoryError(Exception):
-    pass
-
-class QgistMetaKeyError(KeyError):
-    pass
-
-# class QgistMetaRequirementError(Exception): # TODO see dtype_metadata
-#     pass
-
-class QgistMetaTxtError(Exception):
-    pass
-
-class QgistPluginIdCollisionError(Exception):
-    pass
+from .dtype_pluginrelease import dtype_pluginrelease_class
+from .dtype_repository import dtype_repository_class

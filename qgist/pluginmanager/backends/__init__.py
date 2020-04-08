@@ -6,7 +6,7 @@ QGIST PLUGIN MANAGER
 QGIS Plugin for Managing QGIS Plugins
 https://github.com/qgist/pluginmanager
 
-    qgist/pluginmanager/error.py: workbench exception types
+    qgist/pluginmanager/backends/__init__.py: pluginmanager backends
 
     Copyright (C) 2017-2020 QGIST project <info@qgist.org>
 
@@ -25,29 +25,7 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# EXCEPTIONS
+# IMPORT (Internal)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistRepoError(Exception):
-    pass
-
-class QgistInstallFailed(Exception):
-    pass
-
-class QgistNotADirectoryError(NotADirectoryError):
-    pass
-
-class QgistNotAPluginDirectoryError(Exception):
-    pass
-
-class QgistMetaKeyError(KeyError):
-    pass
-
-# class QgistMetaRequirementError(Exception): # TODO see dtype_metadata
-#     pass
-
-class QgistMetaTxtError(Exception):
-    pass
-
-class QgistPluginIdCollisionError(Exception):
-    pass
+from ._load import inventory as backends

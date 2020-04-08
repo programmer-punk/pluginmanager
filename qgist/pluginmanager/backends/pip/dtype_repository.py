@@ -6,7 +6,7 @@ QGIST PLUGIN MANAGER
 QGIS Plugin for Managing QGIS Plugins
 https://github.com/qgist/pluginmanager
 
-    qgist/pluginmanager/error.py: workbench exception types
+    qgist/pluginmanager/backends/pip/dtype_repository.py: Repository data type
 
     Copyright (C) 2017-2020 QGIST project <info@qgist.org>
 
@@ -25,29 +25,20 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# EXCEPTIONS
+# IMPORT (Internal)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistRepoError(Exception):
-    pass
+from ...dtype_repository_base import dtype_repository_base_class
 
-class QgistInstallFailed(Exception):
-    pass
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CLASS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistNotADirectoryError(NotADirectoryError):
-    pass
+class dtype_repository_class(dtype_repository_base_class):
 
-class QgistNotAPluginDirectoryError(Exception):
-    pass
+    _repo_type = 'pip'
 
-class QgistMetaKeyError(KeyError):
-    pass
+    @classmethod
+    def find_plugins(cls, config, protected, plugin_modules):
 
-# class QgistMetaRequirementError(Exception): # TODO see dtype_metadata
-#     pass
-
-class QgistMetaTxtError(Exception):
-    pass
-
-class QgistPluginIdCollisionError(Exception):
-    pass
+        return tuple() # TODO

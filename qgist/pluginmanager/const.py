@@ -25,9 +25,66 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# CONST
+# MISC
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 CONFIG_FN = 'pluginmanager.json'
 PLUGIN_ICON_FN = 'pluginmanager.svg'
 PLUGIN_NAME = 'QgistPluginManager'
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# TYPE SPECS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CONFIG_DELIMITER = '/'
+
+CONFIG_KEY_ALLOW_DEPRECATED = 'app/plugin_installer/allowDeprecated' # TODO
+CONFIG_KEY_ALLOW_EXPERIMENTAL = 'app/plugin_installer/allowExperimental' # TODO
+
+CONFIG_KEY_CACHE = 'cache'
+
+CONFIG_GROUP_MANAGER_REPOS = 'app/pluginmanager/repositories' # TODO
+CONFIG_GROUP_QGISLEGACY_REPOS = 'app/plugin_repositories' # TODO
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# TYPE SPECS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+IFACE_SPEC = {
+    'typename': 'QgisInterface',
+    'attrs': [
+        'mainWindow',
+        ]
+    }
+
+QGSSETTINGS_SPEC = {
+    'typename': 'sip.wrappertype',
+    'name': 'QgsSettings',
+    'attrs': [
+        'value',
+        'setValue',
+        ]
+    }
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# REPO META
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+REPO_DEFAULT_URL = 'https://plugins.qgis.org/plugins/plugins.xml'
+REPO_BACKEND_QGISLEGACYPYTHON = 'qgis'
+REPO_BACKEND_QGISLEGACYCPP = 'cpp'
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# VERSIONS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+VERSION_PREFIXES = (
+    'VERSION', 'VER.', 'VER', 'V.', 'V',
+    'REVISION', 'REV.', 'REV', 'R.', 'R',
+    )
+VERSION_UNSTABLE_SUFFIXES = (
+    'ALPHA', 'BETA', 'PREVIEW', 'RC', 'TRUNK',
+    )
+VERSION_DELIMITERS = (
+    '.', '-', '_', ' ', # TODO commas, i.e. `,`?
+    )

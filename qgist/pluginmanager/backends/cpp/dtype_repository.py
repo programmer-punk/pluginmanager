@@ -6,7 +6,7 @@ QGIST PLUGIN MANAGER
 QGIS Plugin for Managing QGIS Plugins
 https://github.com/qgist/pluginmanager
 
-    qgist/msg.py: QGIST ui error messages
+    qgist/pluginmanager/backends/cpp/dtype_repository.py: Repository data type
 
     Copyright (C) 2017-2020 QGIST project <info@qgist.org>
 
@@ -28,53 +28,50 @@ specific language governing rights and limitations under the License.
 # IMPORT (Python Standard Library)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import traceback
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# IMPORT (External Dependencies)
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-from PyQt5.Qt import QWidget
-from PyQt5.QtWidgets import QMessageBox
-
+import random
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # IMPORT (Internal)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-from .error import QgistTypeError
-from .util import tr
+from ...const import (
+    REPO_BACKEND_QGISLEGACYCPP,
+    CONFIG_GROUP_MANAGER_REPOS,
+    )
+from ...dtype_repository_base import dtype_repository_base_class
+from ...dtype_settings import dtype_settings_class
 
+from ....error import QgistTypeError
+from ....util import tr
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# ROUTINES
+# CLASS
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-def msg_critical(exception, widget = None):
+class dtype_repository_class(dtype_repository_base_class):
 
-    _msg('critical', tr('Critical error'), exception, widget)
+    _repo_type = REPO_BACKEND_QGISLEGACYCPP
 
-def msg_warning(exception, widget = None):
+    @classmethod
+    def find_plugins(cls, config, protected, plugin_modules):
 
-    _msg('warning', tr('Warning'), exception, widget)
+        return tuple() # TODO
 
-def _msg(msg_type, msg_title, exception, widget = None):
+    @classmethod
+    def from_default(cls, config):
 
-    if not isinstance(exception, Exception):
-        raise QgistTypeError(tr('"exception" must be of type Exception'), 'msg')
-    if not isinstance(widget, QWidget) and widget is not None:
-        raise QgistTypeError(tr('"widget" must be of type QWidget or None'), 'msg')
+        if not isinstance(config, dtype_settings_class):
+            raise QgistTypeError(tr('"config_group" is not a group of settings'))
 
-    if len(exception.args) == 0:
-        msg = tr('Internal error. No description can be provided. Please file a bug!')
-    else:
-        msg = str(exception.args[0])
+        name = tr('Local QGIS C++ Plugin Repository')
+        repo_id = f'{name:s} ({random.randint(2**31, 2**32 - 1):x})' # avoid collisions!
 
-    msg += '\n\n---------------------------\n\n' + traceback.format_exc()
-
-    getattr(QMessageBox, msg_type)(
-        widget,
-        msg_title,
-        msg,
-        QMessageBox.Ok
-        )
+        return cls(
+            repo_id = repo_id,
+            name = name,
+            active = True,
+            protected = True,
+            repository_type = cls._repo_type,
+            plugin_releases = list(),
+            config_group = config.get_group(CONFIG_GROUP_MANAGER_REPOS).get_group(repo_id),
+            )

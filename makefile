@@ -20,19 +20,28 @@
 
 
 plugin = pluginmanager
+pyuic = pyuic5
 
 release:
 	make clean
+	make ui
 	mkdir -p release/$(plugin)
 	cp --parents -a $$(git ls-tree -r $$(git rev-parse --abbrev-ref HEAD) --name-only) release/$(plugin)/
 	cd release/; zip -r $(plugin).zip $(plugin); gpg --detach-sign -a $(plugin).zip
 
 clean:
 	-rm -r release
+	find qgist/ -name 'ui*.py' -exec rm -f {} +
 	find qgist/ -name '*.pyc' -exec rm -f {} +
 	find qgist/ -name '*.pyo' -exec rm -f {} +
 	find qgist/ -name '*~' -exec rm -f {} +
 	find ./ -name '__pycache__' -exec rm -fr {} +
+
+.PHONY: ui
+ui:
+	for filename in $$(ls ui/*.ui | cut -d "." -f1 | cut -d "/" -f2) ; do \
+		$(pyuic) -o qgist/$(plugin)/ui_$$filename.py ui/$$filename.ui ; \
+	done
 
 translate:
 	python3 -c "import makefile; makefile.translate()"

@@ -6,7 +6,7 @@ QGIST PLUGIN MANAGER
 QGIS Plugin for Managing QGIS Plugins
 https://github.com/qgist/pluginmanager
 
-    qgist/pluginmanager/error.py: workbench exception types
+    qgist/pluginmanager/backends/cpp/dtype_pluginrelease.py: Plugin release data type
 
     Copyright (C) 2017-2020 QGIST project <info@qgist.org>
 
@@ -25,29 +25,23 @@ specific language governing rights and limitations under the License.
 """
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# EXCEPTIONS
+# IMPORT (Internal)
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistRepoError(Exception):
-    pass
+from ...const import REPO_BACKEND_QGISLEGACYCPP
+from ...dtype_pluginrelease_base import dtype_pluginrelease_base_class
 
-class QgistInstallFailed(Exception):
-    pass
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# CLASS
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-class QgistNotADirectoryError(NotADirectoryError):
-    pass
+class dtype_pluginrelease_class(dtype_pluginrelease_base_class):
 
-class QgistNotAPluginDirectoryError(Exception):
-    pass
+    _repo_type = REPO_BACKEND_QGISLEGACYCPP
 
-class QgistMetaKeyError(KeyError):
-    pass
-
-# class QgistMetaRequirementError(Exception): # TODO see dtype_metadata
-#     pass
-
-class QgistMetaTxtError(Exception):
-    pass
-
-class QgistPluginIdCollisionError(Exception):
-    pass
+    # @property
+    # def protected(self):
+    #     return self._protected
+    # @protected.setter
+    # def protected(self, value):
+    #     raise QgistValueError(tr('C++ plugins are always protected.'))
